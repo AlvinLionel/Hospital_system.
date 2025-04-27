@@ -147,10 +147,15 @@ void addDoctor()
         perror("Error opening file");
         return;
     }
-
-    fprintf(file, "%s,%s,%c,%ld\n", name, specialization, gender, phone);
-    printf("Doctor added successfully\n");
+fprintf(file, "Name: %s\n", name);
+    fprintf(file, "Specialization: %s\n", specialization);
+    fprintf(file, "Gender: %c\n", gender);
+    fprintf(file, "Phone: +254 %ld\n", phone);
+    fprintf(file, "----------------------------------------\n");
     fclose(file);
+
+    printf("Doctor added successfully!\n");
+    
 }
 
 void searchDoctor()
@@ -184,6 +189,58 @@ void searchDoctor()
     if (!found)
     {
         printf("Doctor not found\n");
+    }
+
+    fclose(file);
+}
+void displayPatientRecords()
+{
+    FILE *file = fopen("patients.txt", "r");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+        return;
+    }
+
+    char line[256];
+    int recordFound = 0;
+
+    printf("\n--- Patient Records ---\n");
+    while (fgets(line, sizeof(line), file))
+    {
+        recordFound = 1;
+        printf("%s", line);
+    }
+
+    if (!recordFound)
+    {
+        printf("No patient records found.\n");
+    }
+
+    fclose(file);
+}
+void displayDoctorRecords()
+{
+    FILE *file = fopen("doctors.txt", "r");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+        return;
+    }
+
+    char line[256];
+    int recordFound = 0;
+
+    printf("\n--- Doctor Records ---\n");
+    while (fgets(line, sizeof(line), file))
+    {
+        recordFound = 1;
+        printf("%s", line);
+    }
+
+    if (!recordFound)
+    {
+        printf("No doctor records found.\n");
     }
 
     fclose(file);
@@ -231,7 +288,9 @@ int main()
             int loginOption;
             printf("1. Search patient\n");
             printf("2. Search doctor\n");
-            printf("3. Exit\n");
+            printf("3. Display all patient records\n");
+            printf("4. Display all doctor records\n");
+            printf("5. Exit\n");
             printf("\nEnter your choice: ");
             scanf("%d", &loginOption);
             switch (loginOption)
